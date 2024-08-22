@@ -14,7 +14,7 @@ typedef enum
 {
 	MENSAJE,
 	PAQUETE
-}op_code;
+} op_code;
 
 typedef struct
 {
@@ -27,8 +27,6 @@ typedef struct
 	op_code codigo_operacion;
 	t_buffer* buffer;
 } t_paquete;
-
-
 
 int crear_conexion(char* ip, char* puerto);
 void enviar_mensaje(char* mensaje, int socket_cliente);
