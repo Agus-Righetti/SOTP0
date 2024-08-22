@@ -4,21 +4,21 @@ int main(void)
 {
 	logger = log_create("server.log", "SERVER_LOG", 1, LOG_LEVEL_DEBUG);
 
-	int server_fd = iniciar_servidor();
+	int socket_servidor = iniciar_servidor();
 	log_info(logger, "SERVER listo para recibir al cliente");
-	int cliente_fd = esperar_cliente(server_fd);
+	int socket_cliente = esperar_cliente(socket_servidor);
 
 	t_list* lista;
 	while (1) 
 	{
-		int cod_op = recibir_operacion(cliente_fd);
+		int cod_op = recibir_operacion(socket_cliente);
 		switch (cod_op) 
 		{
 		case MENSAJE:
-			recibir_mensaje(cliente_fd);
+			recibir_mensaje(socket_cliente);
 			break;
 		case PAQUETE:
-			lista = recibir_paquete(cliente_fd);
+			lista = recibir_paquete(socket_cliente);
 			log_info(logger, "Me llegaron los siguientes valores: \n");
 			list_iterate(lista, (void*) iterator);
 			break;
