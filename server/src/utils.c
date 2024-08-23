@@ -7,8 +7,6 @@ int iniciar_servidor(void)
 	// Quitar esta línea cuando hayamos terminado de implementar la funcion
 	// assert(!"no implementado!");
 
-	int socket_servidor;
-
 	struct addrinfo hints;
 	struct addrinfo *server_info;
 
@@ -21,7 +19,11 @@ int iniciar_servidor(void)
 
 	// Creamos el socket de escucha del servidor
 
-	socket_servidor = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+	int socket_servidor = socket(server_info->ai_family, server_info->ai_socktype, server_info->ai_protocol);
+
+	// Agrego la siguiente linea para evitar el ERROR DE CONEXION
+
+	setsockopt(socket_servidor, SOL_SOCKET, SO_REUSEPORT, &(int){1}, sizeof(int));
 
 	// Asociamos el socket a un puerto
 
@@ -45,7 +47,6 @@ int esperar_cliente(int socket_servidor)
 
 	int socket_cliente = accept(socket_servidor, NULL, NULL);
 	log_info(logger, "Se conecto CLIENTE!");
-
 	return socket_cliente;
 }
 
